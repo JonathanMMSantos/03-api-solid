@@ -4,9 +4,18 @@
   "description": "GymPass style app.",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "start:dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src/server.ts --out-dir build"
+    "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
+    "test:install-prisma-environment": "npm link vitest-environment-prisma",
+    "build": "tsup src --out-dir build",
+    "test": "vitest run --dir src/use-cases",
+    "test:watch": "vitest --dir src/use-cases",
+    "pretest:e2e": "run-s test:create-prisma-environment test:install-prisma-environment",
+    "test:e2e": "vitest run --dir src/http",
+    "test:e2e:watch": "vitest --dir src/http",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +23,7 @@
   "type": "module",
   "devDependencies": {
     "@rocketseat/eslint-config": "2.2.2",
+    "@types/bcryptjs": "2.4.6",
     "@types/node": "24.6.0",
     "eslist": "1.0.0-beta.1",
     "tsup": "8.5.0",
@@ -21,12 +31,14 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "7.1.0",
-    "@prisma/client": "7.1.0",
+    "@prisma/adapter-pg": "7.2.0",
+    "@prisma/client": "7.2.0",
+    "bcryptjs": "3.0.3",
+    "db": "file:generated/prisma",
     "dotenv": "17.2.3",
     "fastify": "5.6.1",
     "pg": "8.16.3",
-    "prisma": "7.1.0",
+    "prisma": "7.2.0",
     "zod": "4.1.11"
   }
 }
